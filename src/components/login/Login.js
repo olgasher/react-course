@@ -4,19 +4,27 @@ export function Login() {
 
     const [user, setUser] = useState(null)
 
-    const loginSubmit= (e) => {
-        setUser("")
+    const loginSubmit= async (e) => {
         e.preventDefault();
-
-        //setUser ({firstName:'', lastName:'',email: ''})
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email:'yariv@nerdeez.com', password:'12345678'})
+        };
+        const response = await fetch('https://academeez-login-ex.herokuapp.com/api/users/login', requestOptions);
+        const data = await response.json()
+        console.log(data);
+        setUser (data);
+        //setUser ({firstName:'',lastName:'',email:''})
+        
     } 
 
     return (
-        <form onSubmit={loginSubmit}>
+        <form onSubmit={loginSubmit} >
             <input name="user" type="email" placeholder="Enter your email: "/>
             <input name="password" type="password" placeholder="Enter your password: "/>
             <button type="submit">Login</button>
-            <h1> hello {user}, you are now logged in </h1>
+            <h1> hello {user?.firstName}, you are now logged in </h1>
         </form>
     )
 }
