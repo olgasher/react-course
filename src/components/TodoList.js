@@ -1,4 +1,6 @@
-const links = [
+import { useEffect, useState} from 'react';
+
+/*const links = [
     {"id":10104,"title":"title:0.7193547719438698","description":"description:0.7402325067755231","group":"group:test","when":"2020-12-02T20:47:58.628000Z"},
     {"id":10108,"title":"title:0.824672929631804","description":"description:0.00103177017009215","group":"group:test","when":"2020-12-02T20:55:26.559000Z"},
     {"id":10112,"title":"title:0.4579411370433868","description":"description:0.6001902184924468","group":"group:test","when":"2020-12-02T20:57:09.100000Z"},
@@ -14,10 +16,28 @@ const links = [
     {"id":10160,"title":"title:0.6179211193709766","description":"description:0.08565013210835826","group":"group:45","when":"2020-12-02T21:04:06.392000Z"},
     {"id":10164,"title":"title:0.6103322013141406","description":"description:0.5655687796425173","group":"group:45","when":"2020-12-02T21:04:07.096000Z"},
     {"id":10168,"title":"title:0.5960691110525647","description":"description:0.1762048171009225","group":"group:45","when":"2020-12-02T21:04:07.814000Z"}
-]; 
+]; */
 
 export function TodoList(){
-    const lis = links.map((singleLink) => {
+
+    const [links, setLinks] = useState(null)
+
+    useEffect(() =>{
+        (async () => {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            };
+            const response = await fetch('https://nztodo.herokuapp.com/api/tasks/?format=json', requestOptions);
+            const data = await response.json()
+            console.log(data);
+            setLinks (data);
+        })()
+        
+    },[])
+
+
+    const lis = links && links.map((singleLink) => {
         return (      
                 <li key={singleLink.id}>
                     <h1>
